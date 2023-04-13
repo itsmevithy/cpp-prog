@@ -29,7 +29,7 @@ class time{
 
 int main(){
 	int a, b, c;
-	time p, q, r;
+	time r;
 	cout<<"Enter time 1: ";
 	cin>>a>>b>>c;
 	do{
