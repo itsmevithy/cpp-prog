@@ -33,26 +33,26 @@ int main(){
 	cout<<"Enter time 1: ";
 	cin>>a>>b>>c;
 	do{
-				if(a<23) break;
-				else{
-					cout<<"Enter valid hr value (0-23): ";
-					cin>>a;
-				}
-			} while(true);
-			do{
-				if(b<59) break;
-				else{
-					cout<<"Enter valid min value (0-59): ";
-					cin>>b;
-				}
-			} while(true);
-			do{
-				if(c<59) break;
-				else{
-					cout<<"Enter valid sec value (0-59): ";
-					cin>>c;
-				}
-			} while(true);
+		if(a<23) break;
+		else{
+		        cout<<"Enter valid hr value (0-23): ";
+			cin>>a;
+		}
+	} while(true);
+	do{
+		if(b<59) break;
+		else{
+			cout<<"Enter valid min value (0-59): ";
+			cin>>b;
+		}
+	} while(true);
+	do{
+		if(c<59) break;
+		else{
+			cout<<"Enter valid sec value (0-59): ";
+			cin>>c;
+		}
+	} while(true);
 	time p(a,b,c);
 	cout<<"Enter time 2: ";
 	cin>>a>>b>>c;
