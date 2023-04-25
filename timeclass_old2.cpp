@@ -45,7 +45,7 @@ class Time{
 			}
 		}
 		void display(){
-			cout<<"["<<setw(2)<<setfill('0')<<h<<':'<<setw(2)<<setfill('0')<<m<<':'<<setw(2)<<setfill('0')<<s<<"]";
+			cout<<"["<<setw(2)<<setfill('0')<<h<<':'<<setw(2)<<setfill('0')<<m<<':'<<setw(2)<<setfill('0')<<s<<"]\n";
 		}
 };
 
@@ -58,7 +58,7 @@ int main(){
 	Time p(a,b,c);
 	cout<<"Currently time is: "; p.display();
 
-	cout<<"\nChoose duration format:(1-hours, 2-mins, 3-secs, -hms): ";
+	cout<<"Choose duration format:(1-hours, 2-mins, 3-secs, -hms): ";
 	cin>>choice;
 	a=0; b=0; c=0;
 	while(true){
@@ -87,23 +87,25 @@ int main(){
 				break;
 			case 4:
 				cout<<"Enter duration (HMS format): ";
-				hmscheck=1;
 				cin>>a>>b>>c;
+				Time q(a, b, c);
+				cout<<"After duration of "; q.display();
 				break;
 			 default:
 				cout<<"Enter valid input!!!\n";
+				cin>>choice;
 				break;
 		}
-	}while((choice<1) || (choice>4));
+		/*if(choice not in {1, 2, 3, 4}){
+			cout<<"Enter valid input!!!\n";
+			cin>>choice;}
+		else break;*/
+				
+	}
 
-	Time q(a, b, c);
+	Time q(a, b, c); 
 
-	if(hmscheck!=0){
-		cout<<"After duration of "; q.display(); cout<<", ";}
-	else{
-		cout<<" (i.e, collectively "; q.display(); cout<<" ), ";}
-	r=p+q;
+	r.add(p, q);
 	cout<<"the time will be ";
 	r.display();
-	cout<<endl;
 }
