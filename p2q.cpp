@@ -11,7 +11,7 @@ class Fraction{
 	public:
 		Fraction():n(0), d(1){};
 		Fraction(int a, int b){
-			if(b==0){
+			while(b==0){
 				cout<<"Denominator cannot be zero. Enter again!\n";
 				cin>>b;
 			}
@@ -32,7 +32,7 @@ class Fraction{
 		void get(){
 			cout<<"Enter in p/q form: ";
 			cin>>n>>d;
-			if(d==0){
+			while(d==0){
 				cout<<"Denominator cannot be zero. Enter again!\n";
 				cin>>d;
 			}
@@ -50,11 +50,13 @@ class Fraction{
 
 int main(){
 	Fraction a;
+	cout<<"Default variable created.\nNote: ENTER p/q form as p and q separated by spaces.\n";
 	a.print();
 	a.get();
 	a.print();
 	cout<<"Float form is "<<float(a)<<endl;
 	int p, q;
+	cout<<"Enter values in p/q form.\n";
 	cin>>p>>q;
 	Fraction b(p,q);
 	b.print();
