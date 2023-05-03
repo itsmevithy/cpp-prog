@@ -2,16 +2,8 @@
 using namespace std;
 
 int gcd(int a, int b){
-	int gcd=0;
-	while(gcd==0){
-		(a==b)?(gcd=a)
-		:(a>b)?(a-=b)
-		:(b>a)?(b-=a)
-		:(a==0)?(gcd=b)
-		:(b==0)?(gcd=a)
-		:0;
-	}
-	return gcd;
+	if(b!=0) return gcd(b, a%b);
+	else return a;
 }
 
 class Fraction{
@@ -23,7 +15,7 @@ class Fraction{
 				cout<<"Denominator cannot be zero. Enter again!\n";
 				cin>>b;
 			}
-			int div=gcd(a, b);
+			int div=(a>b)?gcd(a, b):gcd(b, a);
 			n=a/div;
 			d=b/div;
 		}
@@ -33,7 +25,7 @@ class Fraction{
 				a*=10;
 				b*=10;
 			}
-			div=gcd(a, b);
+			div=(a>b)?gcd(a, b):gcd(b,a);
 			n=a/div;
 			d=b/div;
 		}
@@ -44,7 +36,7 @@ class Fraction{
 				cout<<"Denominator cannot be zero. Enter again!\n";
 				cin>>d;
 			}
-			int div=gcd(n, d);
+			int div=(n>d)?gcd(n, d):gcd(d, n);
 			n/=div;
 			d/=div;
 		}
