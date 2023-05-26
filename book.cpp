@@ -1,5 +1,7 @@
 #include<iostream>
 #include<sstream>
+#include<string.h>
+int p=0;
 using namespace std;
 
 string strconv(unsigned int a){
@@ -16,16 +18,17 @@ string strconv(float a){
 
 class Book{
 	protected:
-		char title[100];
+		string title;
 		unsigned int total_pages;
+		int idno;
 	public:
-		Book():title("UNKNOWN"), total_pages(0){}
-		Book(char a[100], unsigned int b):title(a), total_pages(b){
-			cout<<"Parameterized constructor executed!\n";
+		Book():title("UNKNOWN"), total_pages(0), idno(++p){}
+		Book(string a, unsigned int b, int c):title(a), total_pages(b), idno(c){			
+			cout<<"Parameterized constructor executed for book with id no: "<<idno<<endl;
 		}
 
 		void display(){
-			cout<<"Name of the book: "<<title<<endl;
+			cout<<"Book "<<idno<<":-\nName of the book: "<<title<<endl;
 			cout<<"No of pages: "<<((total_pages==0)?"UNKNOWN":strconv(total_pages))<<endl;
 		}
 };
@@ -35,39 +38,45 @@ class Ebook:public Book{
 		float MBsize;
 	public:
 		Ebook():MBsize(0){}
-		Ebook(char a[100], unsigned int b, float c):MBsize(c){
-			Book(a, b);
-			cout<<"Parameterized constructor executed!\n";
+		Ebook(string a, unsigned int b, float c, int d): MBsize(c){
+			title=a;
+			total_pages=b;
+			idno=d;
+			cout<<"Parameterized constructor executed for ebook with id no "<<idno<<endl;
 		}
-
 		void display(){
+			cout<<"E";
 			Book::display();
-			cout<<"Size of the book: "<<((MBsize==0)?"UNKNOWN":strconv(MBsize))<<endl;
+			cout<<"Size of the book: "<<((MBsize==0)?"UNKNOWN":(strconv(MBsize)+" Mb"))<<endl;
 		}
 };
 
 int main(){
-	unsigned int n[2];
-	char t[2][100];
+	unsigned int n;
+	string t;
 	float s;
 	int i;
-	Ebook[] e= new Ebook[2];
-	Book[] b= new Book[2];
+	Ebook* e= new Ebook[2];
+	Book* b= new Book[2];
 	for(i=0; i<2; i++){
-		cout<<"Enter details for "<<(i<1)?"ebook ":"book: ";
-		cout<<"Title: "; cin>>t[i];
-		cout<<"No of pages: "; cin>>n[i];
+		cout<<"Enter details for "<<((i==0)?"ebook ":"book: ");
+		cout<<"Title: "; cin>>t;
+		cout<<"No of pages: "; cin>>n;
 		if(i==0){
 			cout<<"Size occupied: ";
 			cin>>s;
-			e[i]= new Ebook(t[i], n[i], s);
-			b[i]= new Book(t[i], n[i]);
+			e[i]= Ebook(t, n, s, ++p);
+			//cout<<"Ebook process ends";
+			b[i+1]= Book();
+			//cout<<"atleast if ends!";
 		}
-		else if(i==1){
-			b[i]= new Book();
-			e[i]= new Ebook();
+		else{
+			//cout<<"else raaa";
+			b[i-1]=Book(t, n, ++p);
+			e[i]=Ebook();
 		}
 	}
+	//cout<<"loops ends ra dont wry";
 	for(i=0; i<2; i++){
 		e[i].display();
 		b[i].display();
