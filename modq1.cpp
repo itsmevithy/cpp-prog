@@ -35,10 +35,10 @@ class Fuel{
       float temp=(preq*100+dreq*95);
       if (temp>amt) cout<<"Insufficient balance, cannot refill!!\n";
       else{
+	cout<<"Filling "<<preq<<" litres of petrol, and "<<dreq<<" litres of diesel.\n";
         ptl+=preq;
         dsl+=dreq;
-        amt-=temp;
-      }
+        amt-=temp;}
       showbal();
     }  
 };
