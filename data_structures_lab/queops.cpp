@@ -11,7 +11,7 @@ class Queue{
 			queue=new int[size];
 		}
 		bool FullQueue(){
-			return (rear==size)?true:false;
+			return (rear==size-1)?true:false;
 		}
 		bool EmptyQueue(){
 			return ((front==-1)&&(rear==-1))?true:false;
@@ -20,7 +20,7 @@ class Queue{
 			if(FullQueue()) success=false;
 			else{
 				queue[++rear]=dataIn;
-				front=(front==-1)?-1:front;
+				front=(front==-1)?0:front;
 				success=true;
 			}
 			return success;
@@ -43,7 +43,7 @@ class Queue{
 			}
 			return success;
 		}
-		bool QueueRear(){
+		bool QueueRear(int &dataOut){
 			if (EmptyQueue()) success=false;
 			else{
 				dataOut=queue[rear];
@@ -69,19 +69,19 @@ int main(){
                         case 1:
                                 cout<<"Enter element to push: ";
                                 cin>>num;
-                                if(s1.enqueue(array, num)) cout<<"Done!\n";
+                                if(s1.enqueue(num)) cout<<"Done!\n";
                                 else cout<<"Overflow!\n";
                                 break;
                         case 2:
-                                if(s1.dequeue(array, num)) cout<<"Done!\n The element is "<<num<<endl;
+                                if(s1.dequeue(num)) cout<<"Done!\n The element is "<<num<<endl;
                                 else cout<<"Underflow!\n";
                                 break;
                         case 3:
-                                if(s1.QueueFront(array, num)) cout<<"Done!\n The element is "<<num<<endl;
+                                if(s1.QueueFront(num)) cout<<"Done!\n The element is "<<num<<endl;
                                 else cout<<"Underflow!\n";
                                 break;
 			case 4:
-				if(s1.QueueRear(array, num)) cout<<"Done!\n The element is "<<num<<endl;
+				if(s1.QueueRear(num)) cout<<"Done!\n The element is "<<num<<endl;
                                 else cout<<"Underflow!\n";
                                 break;
 			case 5:
