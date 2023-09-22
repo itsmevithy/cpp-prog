@@ -28,12 +28,11 @@ class Queue{
 			node *T=new node;
 			if(T==NULL) return false;
 			T->data=dataIn;
-			if(queue->front==NULL){
-				T->link=queue->front;
-				queue->front=T;
-			};
 			T->link=queue->rear;
+			if((queue->rear)==NULL) queue->front=T;
+			else queue->rear->link=T;
 			queue->rear=T;
+			T->link=NULL;
 			(queue->count)++;
 			return true;
 		}
@@ -64,11 +63,13 @@ class Queue{
 			return queue->count;
 		}
 		void display(){
-			node *temp=queue->rear;
-			while(temp!=NULL){
-				cout<<temp->data<<", ";
-				temp=temp->link;
+			if(emptyQueue()) return;
+			node *T=queue->front;
+			while(T->link!=NULL){
+				cout<<T->data<<", ";
+				T=T->link;
 			}
+			cout<<T->data;
 			cout<<endl;	
 		}
 		void destroyQueue(){
