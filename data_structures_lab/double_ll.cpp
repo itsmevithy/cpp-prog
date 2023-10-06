@@ -125,7 +125,7 @@ int main(){
 	arr.createList();
 	int x, choice;
 	do{
-		cout<<"Enter choice: [0-Exit, 1- Insert, 2-Delete, 3-Search, 4-Count, 5-Display, 6-Destroy]";
+		cout<<"Enter choice: [0-Exit, 1- Insert, 2-Delete, 3-Search, 4-Count, 5-Display, 6- Find position, 7-Destroy]";
 		cin>>choice;
 		switch(choice){
 			case 1:
@@ -155,6 +155,12 @@ int main(){
 				arr.display_rev();
 				break;
 			case 6:
+			        cout<<"Enter element: ";
+                                cin>>x;
+				if(pos_fow!=-1) cout<<"From forward: "<<arr.pos_fow(x)<<"\nFrom reverse: "<<arr.pos_rev(x)<<endl;        
+	                        else cout<<"Not found!\n";
+				break;
+			case 7:
 				arr.destroyList();
 				break;				
 			default:
