@@ -32,7 +32,6 @@ class Queue{
 			if((queue->rear)==NULL) queue->front=T;
 			else queue->rear->link=T;
 			queue->rear=T;
-			T->link=NULL;
 			(queue->count)++;
 			return true;
 		}
@@ -62,16 +61,14 @@ class Queue{
 		int count(){
 			return queue->count;
 		}
-		void display(){
-			if(emptyQueue()) return;
-			node *T=queue->front;
-			while(T->link!=NULL){
-				cout<<T->data<<", ";
-				T=T->link;
+		/*void display(){
+			node *temp=queue->front;
+			while(temp->link!=NULL){
+				cout<<temp->data<<", ";
+				temp=temp->link;
 			}
-			cout<<T->data;
 			cout<<endl;	
-		}
+		}*/
 		void destroyQueue(){
 			node *temp=new node;
 			while(!emptyQueue()){
@@ -90,7 +87,7 @@ int main(){
 	int x, choice;
 	bool check;
 	do{
-		cout<<"Enter choice: [0-Exit, 1- Enqueue, 2-Dequeue, 3-QueueFront, 4-QueueRear, 5-Display, 6-Count, 7-Destroy]";
+		cout<<"Enter choice: [0-Exit, 1- Enqueue, 2-Dequeue, 3-QueueFront, 4-QueueRear, 5-Empty Queue, 6-Count, 7-Destroy]";
 		cin>>choice;
 		switch(choice){
 			case 1:
@@ -118,7 +115,7 @@ int main(){
 				cout<<"The number of elements is "<<arr.count()<<endl;
 				break;
 			case 5:
-				arr.display();
+				cout<<"The array is "<<(arr.emptyQueue())?"empty.\n":"not empty\n";
 				break;
 			case 7:
 				arr.destroyQueue();
