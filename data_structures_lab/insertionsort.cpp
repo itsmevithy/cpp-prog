@@ -3,7 +3,7 @@ using namespace std;
 
 void InsertionSort(int *list, int last){
 	int current=1, walker, key;
-	for(;(current<=last);current++){
+	for(;(current<last);current++){
 		key=list[current];
 		walker=current-1;
 		for(;((walker>=0)&&(key<list[walker]));walker--){

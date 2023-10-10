@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 
-int fib(int n, int a=0, int b=1){
+void fib(int n, int a=0, int b=1){
 	if(n>0){
 		n--;
 		cout<<a;
