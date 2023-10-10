@@ -13,6 +13,7 @@ void fib(int n, int a=0, int b=1){
 
 int main(){
 	int n;
+	cout<<"Enter a number to calculate fib series: ";
 	cin>>n;
 	fib(n);
 }
