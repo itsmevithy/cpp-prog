@@ -22,22 +22,37 @@ class BST{
 		return t;
 	}
 
+	bool deleteBST(BST *r, int dltKey){
+		if(r==NULL) return false;
+		if(dltKey<r->data) return deleteBST(r->left, dltKey);
+		else if(dltKey>r->data) return deleteBST(r->right, dltKey);
+		else{
+			if(r->left==NULL){
+				r=r->right;
+				return true;}
+			else if(r->right==NULL){
+			       	r=r->left;
+				return true;}
+			else{
+				BST *temp=r;
+				temp->data=findLargestBST(r).data;
+				return deleteBST(temp->left, temp->data);
+			}
+		}
+	}
+
 	BST searchBST(BST *r, int key){
-		BST *temp=NULL;
-		if(r==NULL||key>this->findLargestBST(r).data||key<this->findSmallestBST(r).data){
-			return *temp;
+		if(r==NULL||key>this->findLargestBST(r).data||key<this->findSmallestBST(r).data){	
 			cout<<"not found.\n";
+			return *r;
 		}
 		if(key<r->data) return searchBST(r->left, key);
 		else if(key>r->data) return searchBST(r->right, key);
 		else if(key==r->data){
-			cout<<"found\n";
+			cout<<"found";
 			return *r;
 		}
-		else{
-			cout<<"not found.\n";
-			return *temp;
-		}
+		return *r;
 	}
 
 	BST findLargestBST(BST *r){
@@ -76,20 +91,18 @@ int main(){
 	BST b, *root=NULL;
 	int choice, x;
 	do{
-		cout<<"Enter your choice: [0-Exit, 1-Insert, 2-Search, 3-Largest, 4-Smallest, 5-preOrder traversal, 6-inOrder traversal, 7-postOrder traversal]";
+		cout<<"Enter your choice: [0-Exit, 1-Insert, 2-Search, 3-Largest, 4-Smallest, 5-preOrder traversal, 6-inOrder traversal, 7-postOrder traversal, 8-delete]";
 		cin>>choice;
 		switch(choice){
 			case 1:{
 				cout<<"Enter element to insert: ";
 				cin>>x;
 				root=b.addBST(root, x);
-				cout<<endl<<root->data<<endl;
 				break;}
 			case 2:
 				cout<<"Enter element to search: ";
 				cin>>x;
-				cout<<b.searchBST(root, x).data<<endl;
-				//else cout<<"Not found\n";
+				b.searchBST(root, x);
 				break;
 			case 3:
 				cout<<"The largest is "<<b.findLargestBST(root).data<<endl;
@@ -108,6 +121,12 @@ int main(){
 			case 7:
 				b.postOrder(root);
 				cout<<endl;
+				break;
+			case 8:
+				cout<<"Enter element to delete: ";
+				cin>>x;
+				if(b.deleteBST(root, x)) cout<<"Done.\n";
+				else cout<<"Failed.\n";
 				break;
 			default:
 				choice=0;
