@@ -22,7 +22,7 @@ class BST{
 		return t;
 	}
 
-	bool deleteBST(BST *r, int dltKey){
+	bool deleteBST(BST *&r, int dltKey){
 		if(r==NULL) return false;
 		if(dltKey<r->data) return deleteBST(r->left, dltKey);
 		else if(dltKey>r->data) return deleteBST(r->right, dltKey);
@@ -34,9 +34,8 @@ class BST{
 			       	r=r->left;
 				return true;}
 			else{
-				BST *temp=r;
-				temp->data=findLargestBST(r).data;
-				return deleteBST(temp->left, temp->data);
+				r->data=findLargestBST(r->left).data;
+				return deleteBST(r->left, r->data);
 			}
 		}
 	}
@@ -49,7 +48,7 @@ class BST{
 		if(key<r->data) return searchBST(r->left, key);
 		else if(key>r->data) return searchBST(r->right, key);
 		else if(key==r->data){
-			cout<<"found";
+			cout<<"found\n";
 			return *r;
 		}
 		return *r;
