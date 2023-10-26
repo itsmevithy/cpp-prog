@@ -34,32 +34,32 @@ class BST{
 			       	r=r->left;
 				return true;}
 			else{
-				r->data=findLargestBST(r->left).data;
+				r->data=findLargestBST(r->left)->data;
 				return deleteBST(r->left, r->data);
 			}
 		}
 	}
 
-	BST searchBST(BST *r, int key){
-		if(r==NULL||key>this->findLargestBST(r).data||key<this->findSmallestBST(r).data){	
+	bool searchBST(BST *r, int key){
+		if(r==NULL||key>this->findLargestBST(r)->data||key<this->findSmallestBST(r)->data){	
 			cout<<"not found.\n";
-			return *r;
+			return false;
 		}
 		if(key<r->data) return searchBST(r->left, key);
 		else if(key>r->data) return searchBST(r->right, key);
 		else if(key==r->data){
 			cout<<"found\n";
-			return *r;
+			return true;
 		}
-		return *r;
+		return true;
 	}
 
-	BST findLargestBST(BST *r){
-		if(r->right==NULL) return *r;
+	BST* findLargestBST(BST *r){
+		if(r->right==NULL) return r;
 		return findLargestBST(r->right);
 	}
-	BST findSmallestBST(BST *r){
-		if(r->left==NULL) return *r;
+	BST* findSmallestBST(BST *r){
+		if(r->left==NULL) return r;
 		return findSmallestBST(r->left);
 	}
 	void preOrder(BST *r){
@@ -104,10 +104,10 @@ int main(){
 				b.searchBST(root, x);
 				break;
 			case 3:
-				cout<<"The largest is "<<b.findLargestBST(root).data<<endl;
+				cout<<"The largest is "<<b.findLargestBST(root)->data<<endl;
 				break;
 			case 4:
-				cout<<"The smallest is "<<b.findSmallestBST(root).data<<endl;
+				cout<<"The smallest is "<<b.findSmallestBST(root)->data<<endl;
 				break;
 			case 5:
 				b.preOrder(root);
