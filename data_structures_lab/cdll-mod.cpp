@@ -31,9 +31,11 @@ class CDLL{
 				return false;
 			}
 			if(!searchList(pPre, pSuc, dataPre)){
-				cout<<"The element "<<dataPre<<" was not found.\n";
 				if(emptyCDLL()) cout<<"Empty list found. Inserting "<<dataIn<<" at beginning.\n";
-				else return false;
+				else{ 
+					cout<<"The element "<<dataPre<<" was not found.\n";
+					return false;
+				}
 			}
 			pNew->data=dataIn;
 			if(pPre==NULL){
@@ -57,7 +59,7 @@ class CDLL{
 				pSuc->back=pNew;
 			}
 			(list->count)++;
-			cout<<dataIn<<" inserted before "<<dataPre<<endl;
+			if(list->count>1) cout<<dataIn<<" inserted before "<<dataPre<<endl;
 			cout<<"First: "<<list->first->data<<", Last: "<<list->last->data<<endl;
 			return true;
 		}
@@ -167,14 +169,17 @@ class CDLL{
 int main(){
 	CDLL arr;
 	arr.createCDLL();
-	int x, y, choice;
+	int x, y, choice, init=0;
 	do{
 		cout<<"Enter choice: [0-Exit, 1- Insert, 2-Delete, 3-Search, 4-Count, 5-Display, 6-Destroy]";
 		cin>>choice;
 		switch(choice){
 			case 1:
-				cout<<"Enter element to enter, and element to be placed after it: ";
-				cin>>x>>y;
+				if(init==0) cout<<"Element to be entered: ";
+				else cout<<"Element to entered, and element to be placed after it: ";
+				cin>>x;
+				if(init++!=0) cin>>y;
+				else y=x;
 				cout<<((arr.insertCDLL(x, y))?"Done":"Failed")<<endl;
 				break;
 			case 2:
