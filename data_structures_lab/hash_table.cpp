@@ -51,13 +51,12 @@ class SLL{
     bool searchList(node *&pPre, node *&pLoc, int target){
       pPre=NULL;
       pLoc=list->first;
-      while((pLoc!=NULL)&&(target>(pLoc->data))){
+      while((pLoc!=NULL)&&(target!=(pLoc->data))){
         pPre=pLoc;
         pLoc=pLoc->link;
       }
-      if(pLoc==NULL) return false;
-      else if(target==pLoc->data) return true;
-      else return false;
+      if(pLoc!=NULL&&target==pLoc->data) return true;
+      return false;
     }
     bool retrieveNode(int key, int&dataOut){
       node *pPre, *pLoc;
