@@ -12,11 +12,9 @@ void sort(int a[], int beg, int end){
 	for(int i=0; i<n1; i++) larr[i]=a[beg+i];
 	for(int j=0; j<n2; j++) rarr[j]=a[mid+1+j];
 	
-	i=0; j=0; 
-	int k=beg;
+	i=0; j=0; int k=beg;
 	
-	while(i<n1 && j<n2)
-		a[k++]=(larr[i]<rarr[i])?larr[i++]:rarr[j++];
+	while(i<n1 && j<n2) a[k++]=(larr[i]<rarr[j])?larr[i++]:rarr[j++];
 	while(i<n1) a[k++]=larr[i++];
 	while(j<n2) a[k++]=rarr[j++];
 }
