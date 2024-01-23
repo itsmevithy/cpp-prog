@@ -1,6 +1,6 @@
 #include<iostream>
 #include<fstream>
-#include<cstdlib>
+#include<cmath>
 using namespace std;
 
 int* count_sort(int a[], int n, int exp){
@@ -15,7 +15,7 @@ int* count_sort(int a[], int n, int exp){
 	return res;
 }
 
-int * radix_sort(int a[], n){
+int * radix_sort(int a[], int n){
 	int maxn=0, d;
 	for(int i=0; i<n; i++) maxn=max(maxn, a[i]);
 	for(d=0; maxn>0; maxn/=10, d++);
@@ -44,8 +44,8 @@ int main(){
 
     ofstream fo;
     fo.open("ascending.txt");
-	int* a=count_sort(arr, 10000);
-    for(int i=0; i<10000; i++) fo<<a[i]<<'\t';
+//	int* a=count_sort(arr, 10000);
+//    for(int i=0; i<10000; i++) fo<<a[i]<<'\t';
     fo.close();
 
 
