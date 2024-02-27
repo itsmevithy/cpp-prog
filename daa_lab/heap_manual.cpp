@@ -2,6 +2,8 @@
 #include<fstream>
 using namespace std;
 
+int count=0;
+
 class Heap{
 	public:
 		int *arr, n;
@@ -13,6 +15,7 @@ class Heap{
 			for(int i=(n/2); i>=0; i--) heapify(i, n);
 		}
 		void heapify(int ind, int last){
+			count++;
 			int n1=2*ind+1, n2=n1+1;
 			int maxn=(n1<last && arr[n1]>arr[ind])?n1:ind;
 			maxn=(n2<last && arr[n2]>arr[maxn])?n2:maxn;
@@ -62,19 +65,28 @@ int main(){
 	Heap h(arr, n);
 	h.print();
 */
-	ifstream fi("randno.txt");
-	int arr[10000], x;
-	for(int i=0; !fi.eof()&&i<10000; arr[i++]=x){
+	string inps, outps;
+	int limit;
+	cout<<"Enter limit: ";
+	cin>>limit;
+	cout<<"Enter input filename: ";
+	cin>>inps;
+	cout<<"Enter output filename: ";
+	cin>>outps;
+	ifstream fi(inps);
+	int arr[limit], x;
+	for(int i=0; !fi.eof()&&i<limit; arr[i++]=x){
         fi>>x; 
 	}
 	fi.close();
 
-	Heap h(arr, 10000);
+	Heap h(arr, limit);
 //	h.print();
 
     ofstream fo;
-    fo.open("ascending.txt");
+    fo.open(outps);
     h.sort();
-    for(int i=0; i<10000; i++) fo<<h.arr[i]<<'\t';
+    for(int i=0; i<limit; i++) fo<<h.arr[i]<<'\t';
     fo.close();
+	cout<<count<<endl;
 }

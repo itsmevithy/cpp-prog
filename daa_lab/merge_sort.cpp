@@ -1,52 +1,52 @@
 #include<iostream>
 #include<fstream>
-#include<cstdlib>
+#include<climits>
 using namespace std;
 
-void sort(int a[], int beg, int end, int ch){
-	int mid=(beg+end)/2;
-	int i, n1=mid-beg+1;
-	int j, n2=end-mid;
-	int larr[n1], rarr[n2];
+void sort(long *a, long beg, long end, long &count){
+	long mid=(beg+end)/2;
+	long i, n1=mid-beg+1;
+	long j, n2=end-mid;
+	long larr[n1+1], rarr[n2+1];
+	larr[n1]=rarr[n2]=INT_MAX;
+	for(long i=0; i<n1; i++) larr[i]=a[beg+i];
+	for(long j=0; j<n2; j++) rarr[j]=a[mid+1+j];
 	
-	for(int i=0; i<n1; i++) larr[i]=a[beg+i];
-	for(int j=0; j<n2; j++) rarr[j]=a[mid+1+j];
+	i=0; j=0; 
 	
-	i=0; j=0; int k=beg;
-	
-	while(i<n1 && j<n2) a[k++]=((ch==1)?larr[i]<rarr[j]:larr[i]>rarr[j])?larr[i++]:rarr[j++];
-	while(i<n1) a[k++]=larr[i++];
-	while(j<n2) a[k++]=rarr[j++];
+	for(long k=beg; k<=end; count++) a[k++]=(larr[i]<=rarr[j])?larr[i++]:rarr[j++];
 }
 
-void merge(int a[], int beg, int end, int ch){
+void merge(long *a, long beg, long end, long &count){
 	if(beg<end){
-		int mid=(beg+end)/2;
-		merge(a, beg, mid, ch);
-		merge(a, mid+1, end, ch);
-		sort(a, beg, end, ch);
+		long mid=(beg+end)/2;
+		merge(a, beg, mid, count);
+		merge(a, mid+1, end, count);
+		sort(a, beg, end, count);
 	}
 
 }
 
 int main(){
-
-	ifstream fi("randno.txt");
-	int i=0, j, x, key, arr[10000];
-	while(!fi.eof()&&i<10000){
-		 fi>>x;
-		 arr[i++]=x;
+	string inps, outps;
+	long limit;
+	cout<<"Enter limit: ";
+	cin>>limit;
+	cout<<"Enter input filename: ";
+	cin>>inps;
+	cout<<"Enter output filename: ";
+	cin>>outps;
+	ifstream fi(inps);
+	long i=0, j, x, key, arr[limit], count=0;
+	for(long i=0; !fi.eof()&&i<limit; arr[i++]=x){
+        fi>>x; 
 	}
 	fi.close();
 	
 	ofstream fo;
-	fo.open("ascending.txt");
-	merge(arr, 0, 9999, 1);
-	for(i=0; i<10000; i++) fo<<arr[i]<<'\t';
+	fo.open(outps);
+	merge(arr, 0, limit-1, count);
+	for(i=0; i<limit; i++) fo<<arr[i]<<'\t';
 	fo.close();
-	
-	fo.open("descending.txt");
-	merge(arr, 0, 9999, -1);
-	for(i=0; i<10000; i++) fo<<arr[i]<<'\t';
-	fo.close();
+	cout<<count<<endl;
 }
