@@ -75,5 +75,5 @@ int main(){
 	cin>>y;
 	//cell** b=
 	lcs_length_bu(x, y);
-	cout<<endl;
+	cout<<endl<<count<<endl;
 }

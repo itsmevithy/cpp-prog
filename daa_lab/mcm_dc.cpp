@@ -2,36 +2,20 @@
 #include<climits>
 using namespace std;
 
-struct cell{
-	int** m;
-	int** s;
-	cell(int **a, int **b){
-		m=a;
-		s=b;
-	}
-}; 
+int count=0;
 
-cell mat_chain_ord(int* p, int n){
-	int *m[n];
-	int *s[n];
-	for(int i=1; i<=n; i++){
-		m[n-i]=new int[n-i+1];
-		s[n-i]=new int[n-i+1];
-	}
-	for(int i=0; i<n; i++) m[i][i]=0;
-	for(int l=0; l<n-1; l++)
-		for(int i=0; i<n-l; i++){
-			int j=i+l;
-			m[i][j]=INT_MAX;
-			for(int k=i; k<j-1; k++){
-				int q=m[i][k]+m[k][j]+p[i]*p[k+1]*p[j+1];
-				if(q<m[i][j]){
-					m[i][j]=q;
-					s[i][j]=k;
-				}
-			}
+int rec_mat_chain(int* p, int **s, int i, int j){
+	if(i==j) return 0;
+	int t=INT_MAX;
+	for(int k=i; k<j; k++){
+		count+=1;
+		int q=rec_mat_chain(p, s, i, k)+rec_mat_chain(p, s, k+1, j)+(p[i-1]*p[k]*p[j]);
+		if(q<t){
+			t=q;
+			s[i][j]=k;
 		}
-	return cell(m, s);
+	}
+	return t;
 }
 
 void print_opt_order(int **s, int i, int j){
@@ -48,8 +32,13 @@ int main(){
 	int n;
 	cout<<"Enter number of matrices to multiply: ";
 	cin>>n;
-	int p[n];
-	for(int i=0; i<n; i++) cin>>p[i];
-	cell c=mat_chain_ord(p, n);
-	print_opt_order(c.s, 0, n-1);
+	int p[n+1];
+	for(int i=0; i<=n; i++) cin>>p[i];
+	int **s=new int*[n+1];
+	for(int i=0; i<=n; i++){
+		s[i]=new int[n+1];
+	}
+	int m=rec_mat_chain(p, s, 1, n);
+	print_opt_order(s, 1, n);
+	cout<<endl<<cout<<endl;
 }
