@@ -19,7 +19,7 @@ int rec_mat_chain(int* p, int **s, int i, int j){
 }
 
 void print_opt_order(int **s, int i, int j){
-	if(i==j) cout<<" A["<<i<<"] ";
+	if(i==j) cout<<"A["<<i-1<<"]";
 	else{
 		cout<<"(";
 		print_opt_order(s, i, s[i][j]);
@@ -40,5 +40,5 @@ int main(){
 	}
 	int m=rec_mat_chain(p, s, 1, n);
 	print_opt_order(s, 1, n);
-	cout<<endl<<cout<<endl;
+	cout<<endl<<count<<endl;
 }
