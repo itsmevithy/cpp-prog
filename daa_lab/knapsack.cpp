@@ -48,9 +48,10 @@ class Heap{
 			maxheap_up(indx++);
 		}
 		ND dequeue(){
+			if(indx==0) return ND(); 
 			ND temp=arr[0];
 			arr[0]=arr[indx-1];
-			arr[indx--]=new ND;
+			//arr[indx--];
 			heapify(0, indx/2);
 			return temp;
 		}
@@ -68,7 +69,7 @@ class Heap{
 				break;
 			}
 		}
-		void swap(int &x, int&y){
+		void swap(ND &x, ND &y){
 			ND temp=x;
 			x=y;
 			y=temp;
@@ -91,13 +92,14 @@ class Heap{
 			}
 		}
 		ND* sort(){
-			int* a=new ND[n];
+			ND* a=new ND[n];
 			for(int i=0; i<n; i++){
 				swap(a[i], arr[0]);
 				heapify(0, (i-1)/2);
 			}
 			return a;
 		}
+		/*
 		void print(){
 			int p=2; 
 			cout<<"The max heap is, \n";
@@ -106,62 +108,99 @@ class Heap{
 					cout<<endl;
 					p*=2;
 				}
-				cout<<arr[i]<<"\t";
+				cout<<arr[i].vbw<<"\t";
 			}
 			cout<<endl;
 			int *a=sort();
 			cout<<"The sorted array is, ";
 			for(int i=0; i<n; i++) cout<<a[i]<<" ";
 			cout<<endl;
-		}
+		}*/
 };
 
-nd bf_bb_knapsack(itm* item, float wl){
-	ND root, nd;
-	int size=sizeof(item)/sizeof(itm);
-	root.wu=root.vg=0;
-	root.ub=wl*item[0].vbw;
-	root.lvl=0;
-	root.left=root.parent=root.right=NULL;
+ND* bf_bb_knapsack(itm* item, float wl, int size){
+	ND *root, *nd;
+	root->wu=root->vg=0;
+	root->ub=wl*item[0].vbw;
+	root->lvl=0;
+	root->left=root->parent=root->right=NULL;
 	Heap q(size);
-	q.enqueue(root);
+	q.enqueue(*root);
 	int clvl=0;
-	while(clvl<n && q.indx>0){
-		nd=q.dequeue();
-		ND lchild, rchild;
+	while(clvl<size && q.indx>0){
+		*nd=q.dequeue();
+		ND *lchild, *rchild;
 		
-		lchild.wu=nd.wu+item[clvl].w;
-		if(lchild.wu<=wl){
-			lchild.vg=nd.vg+item[clvl].v;
-			lchild.parent=nd;
-			lchild.lvl=nd.lvl+1;
+		lchild->wu=nd->wu+item[clvl].w;
+		if(lchild->wu<=wl){
+			lchild->vg=nd->vg+item[clvl].v;
+			lchild->parent=nd;
+			lchild->lvl=nd->lvl+1;
 			if(clvl==size-1)
-				lchild.ub=lchild.vg;
+				lchild->ub=lchild->vg;
 			else
-				lchild.ub=lchild.vg+(wl-lchild.wu)*item[clvl].vbw;
-			lchild.left=lchild.right=NULL;
-			nd.left=lchild;
-			q.enqueue(lchild);
+				lchild->ub=lchild->vg+(wl-lchild->wu)*item[clvl].vbw;
+			lchild->left=lchild->right=NULL;
+			nd->left=lchild;
+			q.enqueue(*lchild);
 		}
 		
-		rchild.wu=nd.wu;
-		rchild.vg=nd.vg;
-		rchild.parent=nd;
-		rchild.lvl=nd.lvl+1;
+		rchild->wu=nd->wu;
+		rchild->vg=nd->vg;
+		rchild->parent=nd;
+		rchild->lvl=nd->lvl+1;
 		if(clvl==size-1)
-			rchild.ub=rchild.vg;
+			rchild->ub=rchild->vg;
 		else
-			rchild.ub=rchild.vg+(wl-rchild.wu)*item[clvl].vbw;
-		rchild.left=rchild.right=NULL;
-		nd.left=rchild;
-		q.enqueue(rchild);		
+			rchild->ub=rchild->vg+(wl-rchild->wu)*item[clvl].vbw;
+		rchild->left=rchild->right=NULL;
+		nd->left=rchild;
+		q.enqueue(*rchild);		
 	}
 	return nd;
 }
 
-void rec_print(ND nn){
-	if(!nn.parent) return;
-	rec_print(nn.parent);
-	if(nn==nn.parent.left)
-		cout<<nn.lvl<<", ";
+void rec_print(ND* nn){
+	if(!nn||!nn->parent||!nn->parent->left) return;
+	rec_print(nn->parent);
+	if(nn->ub==nn->parent->left->ub)
+		cout<<nn->lvl<<", ";
+}
+
+void bb_knapsack_sol(itm *item, float wl, int size){
+	for(int i=0; i<size; i++)
+		item[i].vbw=item[i].v/item[i].w;
+	for(int i=0 ; i<size; i++)
+		for(int j=0; j<size-i+1; j++)
+			if(item[i].vbw<item[i+1].vbw){
+				itm temp=item[j];
+				item[j]=item[j+1];
+				item[j+1]=temp;
+			}
+	cout<<"\nV: ";
+	for(int i=0; i<size; i++) cout<<item[i].v<<" ";
+	cout<<"\nW: ";
+	for(int i=0; i<size; i++) cout<<item[i].w<<" ";
+	cout<<"\nB: ";
+	for(int i=0; i<size; i++) cout<<item[i].vbw<<" ";
+	ND* nn=bf_bb_knapsack(item, wl, size);
+	cout<<"\nTotal profit is: "<<nn->ub<<"\nItems in knapsack are, ";
+	rec_print(nn);
+}
+
+int main(){
+	int n;
+	cout<<"Enter number of items: ";
+	cin>>n;
+	itm* item=new itm[n];
+	for(int i=0; i<n; i++){
+		cout<<"Enter weight of item "<<i+1<<" :";
+		cin>>item[i].w;
+		cout<<"Enter value of item "<<i+1<<" :";
+		cin>>item[i].v;
+	}
+	float wl;
+	cout<<"Enter WL: ";
+	cin>>wl;
+	bb_knapsack_sol(item, wl, n);
 }
