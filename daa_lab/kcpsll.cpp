@@ -26,7 +26,7 @@ struct head{
 class SLL{
 	public:
 		head *list;
-		void createList(){
+		SLL(){
 			list=new head();
 			list->count=0;
 			list->first=NULL;
@@ -71,27 +71,11 @@ class SLL{
 			else if(target==pLoc->data) return true;
 			else return false;
 		}
-		bool retrieveNode(ND* key, ND* &dataOut){
-			node *pPre, *pLoc;
-			if(searchList(pPre, pLoc, key)){
-				pLoc->data=dataOut;
-				return true;
-			}
-			return false;
-		}
 		bool emptyList(){
 			return (list->first==NULL)?true:false;
 		}
 		int listCount(){
 			return list->count;
-		}
-		void getNext(){
-			node *temp=list->first;
-			while(temp!=NULL){
-				cout<<temp->data<<", ";
-				temp=temp->link;
-			}
-			cout<<endl;
 		}
 };
 
@@ -106,7 +90,6 @@ ND* bf_bb_knapsack(itm* item, float wl, int size){
 	root->lvl=0;
 	root->left=root->parent=root->right=NULL;
 	SLL q;
-	q.createList();
 	q.insertNode(root);
 	int clvl=0;
 	while(clvl<size && !q.emptyList()){
@@ -158,14 +141,16 @@ void rec_print(ND* nn){
 void bb_knapsack_sol(itm* &item, float wl, int size){
 	for(int i=0; i<size; i++)
 		item[i].vbw=item[i].v/item[i].w;
-	for(int i=0 ; i<size; i++)
-		for(int j=0; j<size-i+1; j++)
-			if(item[i].vbw<item[i+1].vbw){
-				itm temp=item[j];
-				item[j]=item[j+1];
-				item[j+1]=temp;
-			}
-	cout<<"\nV: ";
+	cout<<"\nBefore sorting,\nV: ";
+	for(int i=0; i<size; i++) cout<<item[i].v<<"\t";
+	cout<<"\nW: ";
+	for(int i=0; i<size; i++) cout<<item[i].w<<"\t";
+	cout<<"\nB: ";
+	for(int i=0; i<size; i++) cout<<item[i].vbw<<"\t";
+	itm key;
+	for(int i=1, j; i<size; i++, item[j+1]=key)
+		for(j=i-1, key=item[i]; j>=0 && key.vbw>item[j].vbw; j--) item[j+1]=item[j];
+	cout<<"\nAfter sorting\nV: ";
 	for(int i=0; i<size; i++) cout<<item[i].v<<"\t";
 	cout<<"\nW: ";
 	for(int i=0; i<size; i++) cout<<item[i].w<<"\t";
