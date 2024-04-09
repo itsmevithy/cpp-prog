@@ -3,23 +3,25 @@
 #include<algorithm>
 using namespace std;
 
+int count=0;
+
 void rabinkarp_sm(string T, string P, int q, int d){
 	int m=P.length();
 	int n=T.length();
 	int t=0, p=0, h=1;
 		p=(p*d+P[0])%q;
 		t=(t*d+T[0])%q;
-	for(int i=1; i<m; i++){
+	for(int i=1; i<m; i++, count++){
 		h=(h*d);
 		p=(p*d+P[i])%q;
 		t=(t*d+T[i])%q;
 	}
 	h=h%q;
 	cout<<"H value: "<<h<<endl;
-	for(int s=0, i; s<=(n-m); s++){
+	for(int s=0, i; s<=(n-m); s++, count++){
 			//if(t!=p) continue;
 			if(t==p){
-			for(i=0; i<m; i++) if(P[i]!=T[s+i]) break;
+			for(i=0; i<m; i++, count++) if(P[i]!=T[s+i]) break;
 			if(i==m) cout<<"Shift occured at "<<s<<endl;
 			}
 			if(s<n-m){
@@ -60,4 +62,5 @@ int main(){
 	
 	cout<<"Chosen prime number: "<<q<<endl;
 	rabinkarp_sm(x, y, q, alpha.size());
+	cout<<"\ncount: "<<count<<endl;
 }
