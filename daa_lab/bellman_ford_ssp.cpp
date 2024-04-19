@@ -9,8 +9,8 @@ struct edge{
 
 struct vertex{
 	char label;
-	int d;
-	vertex* pi;
+	unsigned int d;
+	int pi;
 };
 
 class graph{
@@ -18,6 +18,7 @@ class graph{
 	vertex *v;
 	edge *efirst;
 	edge* elast;
+	int source;
 	public:
 		graph(int a, int b){
 			vc=a;
@@ -58,22 +59,45 @@ class graph{
 			cout<<endl;
 		}
 		void initialize(int s){
+			source=s;
 			for(int i=0; i<vc; i++){
 				v[i].d=INT_MAX;
 				v[i].pi=-1;
 			}
 			v[s].d=0;
 		}
+		void printPath(int x){
+			if(v[x].pi==-1||x==source){
+				cout<<v[source].label;
+				return;
+			}
+			printPath(v[x].pi);
+			cout<<"-"<<v[x].d<<"->"<<v[x].label;
+		}
 		void relax(int p, int q, int w){
 			if(v[q].d>v[p].d+w){
+				cout<<v[q].label<<"("<<v[q].d<<") is greater than "<<v[p].label<<"("<<v[p].d<<") + "<<w<<", so changing..\n";
 				v[q].d=v[p].d+w;
-				v[q].pi=
+				v[q].pi=p;
 			}
+		}
+		bool bellman_ford(int s){
+			initialize(s);
+			for(int i=1; i<vc; i++)
+				for(edge* temp=efirst; temp; temp=temp->next)
+					relax(temp->f, temp->t, temp->w);
+			for(edge* temp=efirst; temp; temp=temp->next)
+				if(v[temp->t].d>v[temp->f].d+temp->w)
+					return false;
+			for(int i=0; i<vc; i++){
+				cout<<"Parent of "<<v[i].label<<": "<<v[v[i].pi].label<<endl;
+			}
+			return true;
 		}
 };
 
 int main(){
-	int x, y;
+	int x, y, s;
 	cout<<"Enter number of vertices: ";
 	cin>>x;
 	cout<<"Enter number of edges: ";
@@ -81,4 +105,22 @@ int main(){
 	graph g(x, y);
 	g.gInit();
 	g.edgList();
+	cout<<"Enter source vertex index: ";
+	do{
+		cin>>s;
+		if(s<x && s>=0) break;
+		cout<<"Enter valid index!!"<<endl;
+	}while(true);
+	if(!g.bellman_ford(s)){
+		cout<<"Path does not exist!\n";
+		return 0;
+	}
+	do{
+		cout<<"Enter destination vertex index, or enter -1 to quit: ";
+		cin>>s;
+		if(s>=x || s<0) break;
+		cout<<"The path from source to destination is, \n";
+		g.printPath(s);
+		cout<<endl;
+	}while(true);
 }
